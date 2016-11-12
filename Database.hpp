@@ -19,7 +19,8 @@ public:
     Database(QWidget *parent = 0);
 
     std::deque<std::pair<int, std::string> > GetNames() const; ///< Get the current (id,names) in the database
-    int AddName(const std::string& name); ///< Add a name to the data
+    int AddName(const std::string& name); ///< Add a name to the
+    std::string GetName(const uint32_t id);
     void EditName(const int id, const std::string& newname);
     void DeleteName(const int id);
 

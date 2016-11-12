@@ -12,6 +12,7 @@
 
 #include "Database.hpp"
 #include "LogEntry.hpp"
+#include "MergeWindow.hpp"
 
 class MainWindow : public QMainWindow
 {
@@ -31,6 +32,8 @@ public slots:
     void EditUser(); ///< Edit a user name
     void OpenDB();
     void NewDB();
+    void ShowMergeWindow();
+    void RefreshNameList(); ///< Refresh the name list
 
 signals:
     void OpenEntry(QString &title, QString &text, QString &name, QString &date, int id);
@@ -54,14 +57,15 @@ private:
     //QToolButton *m_deleteuser;
     QToolButton *m_addlog;
     QToolButton *m_adduser;
+    QToolButton * m_mergeLogs;
 
     QWidget *m_buttonWidget;
     QWidget *m_window; ///< The mainwindow
     QWidget *m_listwindow; ///< The mainwindow
 
     Database* m_database;
+    MergeWindow *m_mergeWindow;
 
-    void RefreshNameList(); ///< Refresh the name list
     void RefreshLogList(QListWidgetItem* item); ///< Refresh log list for the name item
 
     std::map<QListWidgetItem*, int> m_itemToID;

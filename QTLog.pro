@@ -26,11 +26,13 @@ SOURCES += \
     MainWindow.cpp \
     main.cpp \
     Database.cpp \
-    LogEntry.cpp
+    LogEntry.cpp \
+    MergeWindow.cpp
 HEADERS  += \
     Database.hpp \
     MainWindow.hpp \
-    LogEntry.hpp
+    LogEntry.hpp \
+    MergeWindow.hpp
 
 
 QMAKE_CXXFLAGS_RELEASE -= -O

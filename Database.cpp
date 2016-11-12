@@ -8,10 +8,10 @@
 std::string AddSlashes( const std::string& str)
 {
     std::map<char, std::string> reps;
-    reps['\0'] = "\\\0";
-    reps['\''] = "\'\'";
-    reps['\"'] = "\"\"";
-    reps['\\'] = "\\\\";
+    reps['\0'] = "\0";
+    reps['\''] = "\'";
+    reps['\"'] = "\'";
+    reps['\\'] = "\\";
 
     decltype(reps.begin()) pos;
 
@@ -29,6 +29,8 @@ std::string AddSlashes( const std::string& str)
 
 std::string StripSlashes( const std::string& str)
 {
+    return str;
+    /*
     std::set<char> reps;
     reps.insert('\0');
     reps.insert('\\');
@@ -41,6 +43,7 @@ std::string StripSlashes( const std::string& str)
         ss << *ait;
     }
     return ss.str();
+    */
 }
 
 Database::Database(QWidget *parent):
@@ -197,10 +200,34 @@ void Database::EditLog( const std::string& logtitle,
     }
 }
 
+std::string Database::GetName(const uint32_t id)
+{
+    std::stringstream ss;
+    ss << "SELECT Name from Person where id=" << id;
+    QSqlQuery query(ss.str().c_str());
+    if (query.lastError().isValid())
+    {
+        QMessageBox::critical(0,"Error",query.lastError().text() );
+    }
+    query.next();
+    return StripSlashes(query.value(0).toString().toStdString());
+}
+
 void Database::EditName(const int id, const std::string& newname)
 {
     std::stringstream ss;
     ss << "update Person set Name=\"" << AddSlashes(newname) << "\" where id="<<id;
+    QSqlQuery query(ss.str().c_str());
+    if (query.lastError().isValid())
+    {
+        QMessageBox::critical(0,"Error",query.lastError().text() );
+    }
+}
+
+void Database::DeleteName(const int id)
+{
+    std::stringstream ss;
+    ss << "delete from Person where id="<<id;
     QSqlQuery query(ss.str().c_str());
     if (query.lastError().isValid())
     {

@@ -9,23 +9,25 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     m_namelist(new QListWidget(this)),
     m_loglist(new QListWidget(this)),
-    m_cl(new QHBoxLayout(this)),
-    m_mainLayout(new QVBoxLayout(this)),
+    m_cl(new QHBoxLayout()),
+    m_mainLayout(new QVBoxLayout()),
     m_menuBar(new QMenuBar(this)),
     m_menu(new QMenu(this)),
     m_newAction(new QAction(tr("New"),this)),
     m_openAction(new QAction(tr("Open"), this)),
-    m_buttons(new QVBoxLayout(this)),
+    m_buttons(new QVBoxLayout()),
     m_editlog(new QToolButton(this)),
     m_edituser(new QToolButton(this)),
     m_deletelog(new QToolButton(this)),
     //m_deleteuser(new QToolButton(this)),
     m_addlog(new QToolButton(this)),
     m_adduser(new QToolButton(this)),
+    m_mergeLogs( new QToolButton(this)),
     m_buttonWidget(new QWidget(this)),
     m_window(new QWidget(this)),
     m_listwindow(new QWidget(this)),
     m_database(new Database(this)),
+    m_mergeWindow( new MergeWindow(m_database, this, this) ),
     m_logentry(new LogEntry(this)),
     m_editMode(false),
     m_currentDirectory(QDir::homePath()),
@@ -50,9 +52,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_edituser->setText(tr("Edit"));
     m_adduser->setText(tr("Add"));
+    m_mergeLogs->setText(tr("Merge Logs"));
     //m_deleteuser->setText(tr("Delete"));
     m_edituser->setMinimumWidth(80);
     m_adduser->setMinimumWidth(80);
+    m_mergeLogs->setMinimumWidth(80);
     //m_deleteuser->setMinimumWidth(80);
 
     m_buttons->addWidget(new QLabel(tr("User:"),this));
@@ -64,6 +68,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_buttons->addWidget(m_editlog);
     m_buttons->addWidget(m_addlog);
     m_buttons->addWidget(m_deletelog);
+    m_buttons->addSpacing(20);
+    m_buttons->addWidget(m_mergeLogs);
     m_buttons->addStretch();
 
     m_buttonWidget->setLayout( m_buttons );
@@ -94,8 +100,15 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(&m_logentry, SIGNAL(Changed()), this, SLOT(UpdateLog()));
     QObject::connect(m_openAction, SIGNAL(triggered()), this, SLOT(OpenDB()));
     QObject::connect(m_newAction, SIGNAL(triggered()), this, SLOT(NewDB()));
+    QObject::connect(m_mergeLogs, SIGNAL(clicked()), m_mergeWindow, SLOT(show()));
+    QObject::connect(m_mergeLogs, SIGNAL(clicked()), m_mergeWindow, SLOT(RefreshNameList()));
     OpenDB();
     RefreshNameList();
+}
+
+void MainWindow::ShowMergeWindow()
+{
+
 }
 
 void MainWindow::OpenDB()
