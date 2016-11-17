@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_window(new QWidget(this)),
     m_listwindow(new QWidget(this)),
     m_database(new Database(this)),
-    m_mergeWindow( new MergeWindow(m_database, this, this) ),
+    m_mergeWindow( new MergeWindow(m_database, this) ),
     m_logentry(new LogEntry(this)),
     m_editMode(false),
     m_currentDirectory(QDir::homePath()),
@@ -102,6 +102,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(m_newAction, SIGNAL(triggered()), this, SLOT(NewDB()));
     QObject::connect(m_mergeLogs, SIGNAL(clicked()), m_mergeWindow, SLOT(show()));
     QObject::connect(m_mergeLogs, SIGNAL(clicked()), m_mergeWindow, SLOT(RefreshNameList()));
+
+    QObject::connect(m_mergeWindow, SIGNAL(ItemsMerged()), this, SLOT(RefreshNameList()));
+
     OpenDB();
     RefreshNameList();
 }

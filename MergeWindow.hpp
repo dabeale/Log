@@ -15,14 +15,12 @@
 
 #include <sstream>
 
-class MainWindow;
-
 class MergeWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MergeWindow(Database* database, MainWindow* mainwindow, QWidget *parent = 0);
+    explicit MergeWindow(Database* database,QWidget *parent = 0);
     ~MergeWindow() {}
 
     QList<uint32_t> GetSelectedItems();
@@ -31,10 +29,11 @@ public slots :
     void RefreshNameList();
     void MergeItems(); ///< Merge the items in the database
 
+signals:
+    void ItemsMerged();
 
 private:
     Database* m_database;
-    MainWindow* m_mainwindow;
 
     QWidget *m_window;
     QVBoxLayout *m_mainLayout; ///< Layout containing everything

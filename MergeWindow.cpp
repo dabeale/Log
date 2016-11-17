@@ -1,10 +1,8 @@
 #include "MergeWindow.hpp"
-#include "MainWindow.hpp"
 
-MergeWindow::MergeWindow(Database *database,  MainWindow* mainwindow, QWidget *parent) :
+MergeWindow::MergeWindow(Database *database, QWidget *parent) :
     QMainWindow(parent),
     m_database( database ),
-    m_mainwindow( mainwindow ),
     m_window(new QWidget(this)),
     m_mainLayout(new QVBoxLayout()),
     m_namelist(new QListWidget(this)),
@@ -29,9 +27,7 @@ MergeWindow::MergeWindow(Database *database,  MainWindow* mainwindow, QWidget *p
     setContentsMargins(20, 20, 20, 20);
 
     QObject::connect(m_close, SIGNAL(clicked()), this, SLOT(MergeItems()));
-    QObject::connect(m_close, SIGNAL(clicked()), m_mainwindow, SLOT(RefreshNameList()));
     QObject::connect(m_close, SIGNAL(clicked()), this, SLOT(hide()));
-
 
     hide();
 }
@@ -78,7 +74,7 @@ void MergeWindow::MergeItems()
             }
         }
     }
-
+    emit ItemsMerged();
 }
 
 
