@@ -15,9 +15,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = QTLog
 TEMPLATE = app
 
-CONFIG -= app_bundle
-
-
 INCLUDEPATH += 
 
 DEPENDPATH +=
